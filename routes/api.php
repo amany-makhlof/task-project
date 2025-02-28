@@ -1,12 +1,12 @@
 <?php
 
 use App\Common\Enums\RouteName;
+use App\Http\Controllers\API\Admin\AdminNotificationController;
 use App\Http\Controllers\API\Admin\PostApprovalController;
-use App\Http\Controllers\API\AdminNotificationController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
-use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\User\PostController;
+use App\Http\Controllers\API\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', [RegisterController::class, 'register'])->name(RouteName::REGISTER);
