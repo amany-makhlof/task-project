@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Permission extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name'];
 
-    public function roles()
+    /**
+     * Define Many-to-Many relationship with Post
+     */
+    public function posts()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Post::class);
     }
 }

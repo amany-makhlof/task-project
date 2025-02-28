@@ -24,10 +24,12 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new \Illuminate\Notifications\Messages\MailMessage)
-                    ->subject('New User Registered')
-                    ->line('A new user has registered: ' . $this->user->email)
-                    ->action('View User', url('/admin/users/' . $this->user->id))
-                    ->line('Thank you for using our application!');
+            ->subject('New User Registered')
+            ->greeting('Hello Admin,')
+            ->line('A new user has registered: ' . $this->user->name)
+            ->line('Email: ' . $this->user->email)
+            ->action('View User', url('/admin/users/' . $this->user->id))
+            ->line('Thank you for using our application!');
     }
 
     public function toArray($notifiable)

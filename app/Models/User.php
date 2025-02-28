@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    protected $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -46,18 +49,16 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-
-        // static::created(function ($user) {
-        //     $user->wallet()->create([
-        //         'balance' => 0,
-        //     ]);
-        // });
     }
 
 
     public function getToken(): string
     {
         return $this->createToken('token')->plainTextToken;
+    }
+    public function routeNotificationForMail($notification)
+    {
+        return $this->email;
     }
 
     public function logout()
@@ -73,22 +74,5 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->HasMany(Post::class);
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
-
-    public function hasPermission($permission)
-    {
-        return $this->roles()->whereHas('permissions', function ($query) use ($permission) {
-            $query->where('name', $permission);
-        })->exists();
     }
 }

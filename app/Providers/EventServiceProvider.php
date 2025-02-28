@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\PostApproved;
 use App\Events\UserRegistered;
 use App\Listeners\LogUserRegistration;
 use App\Listeners\NotifyAdminsOfNewUser;
+use App\Listeners\SendPostApprovalNotification;
 use App\Listeners\SendWelcomeEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
             SendWelcomeEmail::class,
             LogUserRegistration::class,
             NotifyAdminsOfNewUser::class,
+        ],
+        PostApproved::class => [
+            SendPostApprovalNotification::class,
         ],
     ];
 
